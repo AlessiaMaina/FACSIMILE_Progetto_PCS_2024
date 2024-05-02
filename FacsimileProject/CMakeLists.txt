@@ -41,55 +41,56 @@ list(APPEND ${CMAKE_PROJECT_NAME}_LINKED_LIBRARIES PRIVATE GTest::gmock_main)
 # Copy file
 ###############################################################################
 
+
 # Insert Sources
 ################################################################################
-add_subdirectory(src) #funzione come chiamata a funzione
+
+add_subdirectory(src)           # Chiamata a funzione
 list (APPEND ${CMAKE_PROJECT_NAME}_sources ${src_sources})
 list (APPEND ${CMAKE_PROJECT_NAME}_headers ${src_headers})
 list (APPEND ${CMAKE_PROJECT_NAME}_includes ${src_includes})
 
-add_subdirectory(src_test) #funzione come chiamata a funzione
+add_subdirectory(src_test)      # Chiamata a funzione
 list (APPEND ${CMAKE_PROJECT_NAME}_TEST_sources ${src_test_sources})
 list (APPEND ${CMAKE_PROJECT_NAME}_TEST_headers ${src_test_headers})
 list (APPEND ${CMAKE_PROJECT_NAME}_TEST_includes ${src_test_includes})
 
 add_subdirectory(TestingParaview/Code/src)
 list (APPEND ${CMAKE_PROJECT_NAME}_TEST_sources ${src_paraview_sources})
-list (APPEND ${CMAKE_PROJECT_NAME}_TEST_headers ${src_paraview_test_headers})
-list (APPEND ${CMAKE_PROJECT_NAME}_TEST_includes ${src_paraview_test_includes})
+list (APPEND ${CMAKE_PROJECT_NAME}_TEST_headers ${src_paraview_headers})
+list (APPEND ${CMAKE_PROJECT_NAME}_TEST_includes ${src_paraview_includes})
+
 
 # Create executable
 ################################################################################
 
-# Esegubile del MAIN del progetto
+# Esegubile del main
+
 add_executable(${CMAKE_PROJECT_NAME} main.cpp
     ${${CMAKE_PROJECT_NAME}_sources}
     ${${CMAKE_PROJECT_NAME}_headers})
 
 target_link_libraries(${CMAKE_PROJECT_NAME} PUBLIC
-    ${${CMAKE_PROJECT_NAME}_LINKED_LIBRARIES} )
+    ${${CMAKE_PROJECT_NAME}_LINKED_LIBRARIES})
 
 target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC
     ${${CMAKE_PROJECT_NAME}_includes})
 
-
 target_compile_options(${PROJECT_NAME} PUBLIC -fPIC)
 
 
-# Eseguibile dei "TEST"
+# Eseguibile dei test
 add_executable(${CMAKE_PROJECT_NAME}_TEST mainTest.cpp
     ${${CMAKE_PROJECT_NAME}_sources}
     ${${CMAKE_PROJECT_NAME}_headers}
     ${${CMAKE_PROJECT_NAME}_TEST_sources}
-    ${${CMAKE_PROJECT_NAME}_TEST_headers}
+    ${${CMAKE_PROJECT_NAME}_TEST_headers})
 
-)
-
-target_link_libraries(${CMAKE_PROJECT_NAME}_TEST PUBLIC ${${CMAKE_PROJECT_NAME}_LINKED_LIBRARIES} )
+target_link_libraries(${CMAKE_PROJECT_NAME}_TEST PUBLIC
+    ${${CMAKE_PROJECT_NAME}_LINKED_LIBRARIES} )
 
 target_include_directories(${CMAKE_PROJECT_NAME}_TEST PUBLIC
     ${${CMAKE_PROJECT_NAME}_includes}
-    ${${CMAKE_PROJECT_NAME}_TEST_includes}
-)
+    ${${CMAKE_PROJECT_NAME}_TEST_includes})
 
 target_compile_options(${CMAKE_PROJECT_NAME}_TEST PUBLIC -fPIC)
